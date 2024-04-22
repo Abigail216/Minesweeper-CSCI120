@@ -12,14 +12,15 @@ window = pygame.display.set_mode((width, height)) #just displaying obviously. Do
 pygame.display.set_caption("Mine Sweeper") #Top bar (like where x, minimize, full window go)
 white = (200, 200, 200)
 
+
 running = True 
 while running: 
     pygame.time.Clock().tick(60)
-    blocksize = 20  
-    for x in range(0, width, blocksize):
-        for y in range(0, height, blocksize):
-            rect = pygame.Rect(x, y, blocksize, blocksize)
+   pygame.time.Clock().tick(60)
+    blocksize = 20  #Reads each of the rectanges as individauls 
+    for x in range(100, width - 100, blocksize): #100 and -100 just adjust where the blocks are
+        for y in range(100, height - 100, blocksize):
+            rect = pygame.Rect(x , y , blocksize, blocksize)
             pygame.draw.rect(window, white, rect, 1)
-    pygame.display.update()
+    pygame.display.update() 
     
-
