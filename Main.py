@@ -15,7 +15,6 @@ white = (200, 200, 200)
 
 running = True 
 while running: 
-    pygame.time.Clock().tick(60)
    pygame.time.Clock().tick(60)
     blocksize = 20  #Reads each of the rectanges as individauls 
     for x in range(100, width - 100, blocksize): #100 and -100 just adjust where the blocks are
