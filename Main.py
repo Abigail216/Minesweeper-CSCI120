@@ -10,7 +10,12 @@ width = 800
 height = 800
 window = pygame.display.set_mode((width, height)) #just displaying obviously. Don't neccessarily need width & height but more for organization.
 pygame.display.set_caption("Mine Sweeper") #Top bar (like where x, minimize, full window go)
+
+#colors
 white = (200, 200, 200)
+green = (0, 255, 0)
+blue = (0, 0, 128)
+
 
 # font
 font = pygame.font.Font('freesansbold.ttf', 32)
