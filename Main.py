@@ -17,7 +17,10 @@ running = True
 while running: 
    pygame.time.Clock().tick(60)
     blocksize = 20  #Reads each of the rectanges as individauls 
-    for x in range(100, width - 100, blocksize): #100 and -100 just adjust where the blocks are
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+   for x in range(100, width - 100, blocksize): #100 and -100 just adjust where the blocks are
         for y in range(100, height - 100, blocksize):
             rect = pygame.Rect(x , y , blocksize, blocksize)
             pygame.draw.rect(window, white, rect, 1) 
