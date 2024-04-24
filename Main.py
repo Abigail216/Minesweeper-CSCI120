@@ -28,6 +28,11 @@ while running:
         if event.type == pygame.MOUSEBUTTONUP: 
             start = event.pos 
             print("start", start)
-            break
+            x = 40
+            y = 130
+            if start[0] in range(x,y) and start[1] in range (x, y): 
+                rect = pygame.draw.rect(window, white, (40, 40, 90, 90))
+                rectcenter = 75, 75
+                window.blit(text, rectcenter)
     pygame.display.update() 
     
