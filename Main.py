@@ -12,6 +12,9 @@ window = pygame.display.set_mode((width, height)) #just displaying obviously. Do
 pygame.display.set_caption("Mine Sweeper") #Top bar (like where x, minimize, full window go)
 white = (200, 200, 200)
 
+# font
+font = pygame.font.Font('freesansbold.ttf', 32)
+text = font.render('1', True, green, blue)
 
 running = True 
 while running: 
