@@ -20,6 +20,11 @@ while running:
     for x in range(100, width - 100, blocksize): #100 and -100 just adjust where the blocks are
         for y in range(100, height - 100, blocksize):
             rect = pygame.Rect(x , y , blocksize, blocksize)
-            pygame.draw.rect(window, white, rect, 1)
+            pygame.draw.rect(window, white, rect, 1) 
+    for event in pygame.event.get(): 
+        if event.type == pygame.MOUSEBUTTONUP: 
+            start = event.pos 
+            print("start", start)
+            break
     pygame.display.update() 
     
