@@ -26,17 +26,19 @@ pygame.display.set_caption("Mine Sweeper") #Top bar (like where x, minimize, ful
 white = (200, 200, 200)
 green = (0, 255, 0)
 blue = (0, 0, 128) 
-red = (255, 0, 0)
+red = (255, 0, 0) 
+black = (0, 0, 0)
 
 
 # font
 font = pygame.font.Font('freesansbold.ttf', 32)
 text = font.render('1', True, green, blue)
 
-BOMB_COUNT = (3,5)
+#creating the bombs
+BOMB_COUNT = (30,50) #for how many bombs will be created. 
 blocksize = 50  #Reads each of the rectanges as individauls 
 running = True 
-BOXES = [] #creating a list of boxes. 
+BOXES = [] #creating a list of boxes. Also keeps the boxes as individuals.
 
 for x in range(100, width - 100, blocksize): #100 and -100 just adjust where the blocks are
     row = []
@@ -46,13 +48,13 @@ for x in range(100, width - 100, blocksize): #100 and -100 just adjust where the
         #this makes the boxes before the loops. 
     BOXES.append(row)
 
-for bomb in range(random.randrange(BOMB_COUNT[0], BOMB_COUNT[1] + 1)):
+for bomb in range(random.randrange(BOMB_COUNT[0], BOMB_COUNT[1] + 1)): #makes sure the bombs are within the grid itself. 
     bomb_row = random.randrange(0,len(BOXES))
     bomb_col = random.randrange(0,len(BOXES))
-    BOXES[bomb_row][bomb_col].color = red #will currently show where bombs are as red. 
+    #BOXES[bomb_row][bomb_col].color = red #will currently show where bombs are as red. 
     BOXES[bomb_row][bomb_col].is_bomb = True 
 
-direction = [(-1,-1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)] #checking to see how close bomb is (so basically 1 away) 
+direction = [(-1,-1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)] #checking to see how close bomb is (so basically 1 away). If there is touching more than 1, it is noted. 
 for row in range(len(BOXES)):
     for col in range(len(BOXES[row])):
         counter = 0
@@ -74,8 +76,15 @@ while running:
                     if box.rect.collidepoint(pos):
                         clicked_box = box
             if clicked_box: #makes sure nothing happens if area that isn't a boxed is clicked it doesn't do anything. Also fills box.
-                clicked_box.color = green
-                print(pos, clicked_box.bombs)
+                if clicked_box.is_bomb:   
+                    print("You're dead") 
+                    clicked_box.color = red
+                else: 
+                    clicked_box.color = green
+                    print(pos, clicked_box.bombs)
+            
+            
+                    
                 #all of this checks to see if there is a collision within the box. These are empty boxes. 
             # start = event.pos 
             # print("start", start)
