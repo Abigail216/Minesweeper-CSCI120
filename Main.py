@@ -12,6 +12,11 @@ class Box:
         self.color = white
         self.is_bomb = is_bomb
         self.bombs = 0
+        self.is_flagged = False
+
+    def draw_flag(self, window, flag_image):
+        if self.is_flagged: 
+            window.blit(flag_image, self.rect.topleft)
 
 # Initialize Pygame
 pygame.init()
@@ -28,7 +33,6 @@ green = (0, 255, 0)
 blue = (0, 0, 128) 
 red = (255, 0, 0) 
 black = (0, 0, 0)
-
 
 # font
 font = pygame.font.Font('freesansbold.ttf', 32)
@@ -64,6 +68,9 @@ for row in range(len(BOXES)):
                     counter += 1
         BOXES[row][col].bombs = counter #checking for the bombs
 
+flag_image = pygame.image.load(os.path.join('Assets', 'flag.png'))
+flag = pygame.transform.scale(flag_image, (35, 35))
+flag_dest = (blocksize/2, blocksize/2)
 
 while running: 
     for event in pygame.event.get():
@@ -81,31 +88,18 @@ while running:
                     clicked_box.color = red
                 else: 
                     clicked_box.color = green
-                    print(pos, clicked_box.bombs)
-            
-            
-                    
-                #all of this checks to see if there is a collision within the box. These are empty boxes. 
-            # start = event.pos 
-            # print("start", start)
-            # x = 40
-            # y = 130
-            # if start[0] in range(x,y) and start[1] in range (x, y): 
-            #     rect = pygame.draw.rect(window, white, (40, 40, 90, 90))
-            #     rectcenter = 75, 75
-            #     window.blit(text, rectcenter)
-    
-    window.fill((0, 0, 0))
-    for row in BOXES:
-        for box in row:
-            if box.color == white:
-                pygame.draw.rect(window, box.color, box.rect, 1) #this helps store each of the boxes. Rerenders the boxes in the boxes list. 
-            else: 
-                pygame.draw.rect(window, box.color, box.rect) #referring back to elif event. 
-    pygame.display.update()
-    pygame.time.Clock().tick(60)
-   
-#need to show num. of bombs. Bombs are showing. 
-#that is num. of bombs surrounding that box. 
-#Next step is make sure the 
-#DFS- def first search. Checks for connections. How far can I go with that? (Should be used to create the "flood zone".)
+                    print(pos, clicked_box.bombs)   
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 3:
+                pos = pygame.mouse.get_pos()
+                for row in BOXES:
+                    for box in row:
+                        if box.rect.collidepoint(pos):
+                            if not box.is_flagged:
+                                box.is_flagged = True
+                                box.draw_flag(window, flag)
+                                pygame.display.update(box.rect)
+                            else:
+                                box.is_flagged = False
+                                pygame.draw (window, white, box.rect)
+                                pygame.display.update(box.rect)
