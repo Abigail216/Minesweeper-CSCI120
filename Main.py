@@ -89,17 +89,12 @@ while running:
                 else: 
                     clicked_box.color = green
                     print(pos, clicked_box.bombs)   
-        if event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 3:
-                pos = pygame.mouse.get_pos()
-                for row in BOXES:
-                    for box in row:
-                        if box.rect.collidepoint(pos):
-                            if not box.is_flagged:
-                                box.is_flagged = True
-                                box.draw_flag(window, flag)
-                                pygame.display.update(box.rect)
-                            else:
-                                box.is_flagged = False
-                                pygame.draw (window, white, box.rect)
-                                pygame.display.update(box.rect)
+            if event.type == pygame.MOUSEBUTTONUP: 
+                    if not clicked_box.is_flagged: 
+                        clicked_box.is_flagged = True 
+                        clicked_box.draw_flag(window, flag)
+                        pygame.display.update(box.rect)
+                    else: 
+                        clicked_box.is_flagged = False 
+                        box.draw_flag(window, white, box.rect)
+                        pygame.display.update(box.rect)
