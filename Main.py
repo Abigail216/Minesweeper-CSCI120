@@ -113,9 +113,6 @@ for row in range(len(BOXES)):
 flag_image = pygame.image.load(os.path.join('Assets', 'flag.png'))
 flag = pygame.transform.scale(flag_image, (40, 40))
 flag_dest = (blocksize//2, blocksize//2)
-bomb_image = pygame.image.load(os.path.join('Assets', 'nuclearexplosion.png'))
-bomb = pygame.transform.scale(bomb_image, (800,800))
-bomb_dest = (width //2, height //2)
 
 while running: 
     window.fill((0, 0, 0))
@@ -137,7 +134,7 @@ while running:
                 if clicked_box.is_bomb:  
                     running = False
                     gameover = True #hit bomb, game ends
-                    print("You're dead") 
+                    #print("You're dead") 
                     clicked_box.color = red
                 else: 
                     # clicked_box.color = green
@@ -191,6 +188,3 @@ while gameover == True:
    window.blit(gotext, (140, 375))
    pygame.display.update()
    pygame.time.Clock().tick(60)
-
-
-
