@@ -49,11 +49,11 @@ font = pygame.font.Font('freesansbold.ttf', 32)
 text = font.render('1', True, green, blue)
 
 #creating the bombs
-BOMB_COUNT = (30,50) #for how many bombs will be created. 
+BOMB_COUNT = (30,30) #for how many bombs will be created. 
 blocksize = 50  #Reads each of the rectanges as individauls 
 running = True 
 BOXES = [] #creating a list of boxes. Also keeps the boxes as individuals.
-FLAGS = 10
+FLAGS = BOMB_COUNT[0]
 
 def find_all(r, c):
     direction = [(-1,-1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
