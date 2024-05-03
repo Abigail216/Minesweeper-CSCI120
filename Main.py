@@ -114,14 +114,12 @@ flag = pygame.transform.scale(flag_image, (40, 40))
 flag_dest = (blocksize//2, blocksize//2)
 
 while running: 
-
     window.fill((0, 0, 0))
-
     for event in pygame.event.get():
         pos = pygame.mouse.get_pos()
         if event.type == pygame.QUIT:
             running = False
-        elif event.type == pygame.MOUSEBUTTONUP: 
+        elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             clicked_box = None
             for row in BOXES:
@@ -150,17 +148,6 @@ while running:
                     #     pygame.display.update(box.rect)
                     print(FLAGS)
 
-
-
-                #all of this checks to see if there is a collision within the box. These are empty boxes. 
-            # start = event.pos 
-            # print("start", start)
-            # x = 40
-            # y = 130
-            # if start[0] in range(x,y) and start[1] in range (x, y): 
-            #     rect = pygame.draw.rect(window, white, (40, 40, 90, 90))
-            #     rectcenter = 75, 75
-            #     window.blit(text, rectcenter)
     for row in BOXES:
         for box in row:
             if box.is_flagged == True:
@@ -174,11 +161,8 @@ while running:
                 pygame.draw.rect(window, white, box.rect,1) #referring back to elif event.
                 if box.bombs != 0 and box.is_bomb == False:
                     w, h = font.size(str(box.bombs))
-
                     text = font.render(str(box.bombs),False, (105, 105, 105))
                     window.blit(text, (box.x + (50 - w) // 2, box.y + (50 - h) //2 ))
-         
-                
                 
     pygame.display.update()
     pygame.time.Clock().tick(60)
