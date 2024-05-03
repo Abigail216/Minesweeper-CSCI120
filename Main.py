@@ -113,6 +113,9 @@ for row in range(len(BOXES)):
 flag_image = pygame.image.load(os.path.join('Assets', 'flag.png'))
 flag = pygame.transform.scale(flag_image, (40, 40))
 flag_dest = (blocksize//2, blocksize//2)
+bomb_image = pygame.image.load(os.path.join('Assets', 'nuclearexplosion.png'))
+bomb = pygame.transform.scale(bomb_image, (800,800))
+bomb_dest = (width //2, height //2)
 
 while running: 
     window.fill((0, 0, 0))
@@ -169,10 +172,8 @@ while running:
                     w, h = font.size(str(box.bombs))
                     text = font.render(str(box.bombs),False, (105, 105, 105))
                     window.blit(text, (box.x + (50 - w) // 2, box.y + (50 - h) //2 ))
-                
     pygame.display.update()
     pygame.time.Clock().tick(60)
-
 
 endfont = pygame.font.Font('freesansbold.ttf', 40)
 gotext = endfont.render('Game Over. You hit a mine!', True, red, black)
