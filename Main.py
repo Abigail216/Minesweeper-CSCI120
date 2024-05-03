@@ -52,6 +52,7 @@ text = font.render('1', True, green, blue)
 BOMB_COUNT = (30,30) #for how many bombs will be created. 
 blocksize = 50  #Reads each of the rectanges as individauls 
 running = True 
+quit = False
 BOXES = [] #creating a list of boxes. Also keeps the boxes as individuals.
 FLAGS = BOMB_COUNT[0]
 
@@ -119,6 +120,9 @@ while running:
         pos = pygame.mouse.get_pos()
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN: 
+            if event.key == pygame.K_q: 
+                running = False #press q to quit. 
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
             clicked_box = None
@@ -127,7 +131,8 @@ while running:
                     if box.rect.collidepoint(pos):
                         clicked_box = box
             if clicked_box and event.button == 1: #makes sure nothing happens if area that isn't a boxed is clicked it doesn't do anything. Also fills box.
-                if clicked_box.is_bomb:   
+                if clicked_box.is_bomb:  
+                    running = False #hit bomb, game ends
                     print("You're dead") 
                     clicked_box.color = red
                 else: 
@@ -166,3 +171,5 @@ while running:
                 
     pygame.display.update()
     pygame.time.Clock().tick(60)
+
+
