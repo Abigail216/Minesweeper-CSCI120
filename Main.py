@@ -30,7 +30,6 @@ class Box:
 # Initialize Pygame
 pygame.init()
 pygame.font.init()
-clock = pygame.time.Clock()
 
 #window size
 width = 800
@@ -49,19 +48,13 @@ black = (0, 0, 0)
 font = pygame.font.Font('freesansbold.ttf', 32)
 text = font.render('1', True, green, blue)
 
-# timer
-timer, text = 0, '0'
-pygame.time.set_timer(pygame.USEREVENT, 1000)
-
 #creating the bombs
-BOMB_COUNT = (1,1) #for how many bombs will be created. 
+BOMB_COUNT = (30,30) #for how many bombs will be created. 
 blocksize = 50  #Reads each of the rectanges as individauls 
 running = True 
 gameover = False
-winning = False
 BOXES = [] #creating a list of boxes. Also keeps the boxes as individuals.
 FLAGS = BOMB_COUNT[0]
-all_list = []
 
 def find_all(r, c):
     direction = [(-1,-1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
@@ -76,6 +69,7 @@ def find_all(r, c):
         row = box.row
         col = box.col
         used.append(box)
+
         for item in direction: #stack adds things on top. 
             if 0 <= row + item[0] < len(BOXES) and 0 <= col + item[1] < len(BOXES):
                 if BOXES[row + item[0]][col + item[1]].bombs == 0 and BOXES[row + item[0]][col + item[1]].is_bomb == False:
@@ -123,17 +117,7 @@ flag_dest = (blocksize//2, blocksize//2)
 while running: 
     window.fill((0, 0, 0))
     for event in pygame.event.get():
-        if event.type == pygame.USEREVENT:
-            timer += 1
-            text = str(timer).rjust(0)
-            
-        if event.type == pygame.QUIT: 
-            running = False
-        if event.type == pygame.KEYDOWN: 
-            if event.key == pygame.K_q: 
-                running = False
-        if event.type == pygame.MOUSEBUTTONUP: 
-            pos = pygame.mouse.get_pos()
+        pos = pygame.mouse.get_pos()
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN: 
@@ -146,7 +130,6 @@ while running:
                 for box in row:
                     if box.rect.collidepoint(pos):
                         clicked_box = box
-                        all_list.append(box)
             if clicked_box and event.button == 1: #makes sure nothing happens if area that isn't a boxed is clicked it doesn't do anything. Also fills box.
                 if clicked_box.is_bomb:  
                     running = False
@@ -170,9 +153,6 @@ while running:
                     #     box.draw_flag(window, white, box.rect)
                     #     pygame.display.update(box.rect)
                     print(FLAGS)
-    window.blit(font.render(text, True, white), (50, 50))
-    pygame.display.update()
-    pygame.time.Clock().tick(60)
 
     for row in BOXES:
         for box in row:
@@ -193,10 +173,9 @@ while running:
     pygame.time.Clock().tick(60)
 
 endfont = pygame.font.Font('freesansbold.ttf', 40)
-gameOvertext = endfont.render('Game Over. You hit a mine!', True, red, black)
-wintext = endfont.render('Congratulations! You found all the mines', True, red, black)
+gotext = endfont.render('Game Over. You hit a mine!', True, red, black)
 
-while gameover == True:  # end lose screen 
+while gameover == True: 
    for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False 
@@ -206,20 +185,6 @@ while gameover == True:  # end lose screen
                running = False 
                gameover = False #press q to quit. 
    window.fill((0,0,0))
-   window.blit(gameOvertext, (140, 375))
+   window.blit(gotext, (140, 375))
    pygame.display.update()
    pygame.time.Clock().tick(60)
-
-while winning is True: 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False 
-            winning = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_q: 
-               running = False 
-               winning = False #press q to quit. 
-    window.fill((0,0,0))
-    window.blit(wintext, (140, 375))
-    pygame.display.update()
-    pygame.time.Clock().tick(60)
