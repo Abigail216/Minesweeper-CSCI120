@@ -30,6 +30,7 @@ class Box:
 # Initialize Pygame
 pygame.init()
 pygame.font.init()
+clock = pygame.time.Clock()
 
 #window size
 width = 800
@@ -48,10 +49,16 @@ black = (0, 0, 0)
 font = pygame.font.Font('freesansbold.ttf', 32)
 text = font.render('1', True, green, blue)
 
+#timer
+timer, text = 0, '0'
+pygame.time.set_timer(pygame.USEREVENT, 1000)
+
 #creating the bombs
-BOMB_COUNT = (30,30) #for how many bombs will be created. 
+# BOMB_COUNT = (30,30) #for how many bombs will be created. 
+BOMB_COUNT = (1,1)
 blocksize = 50  #Reads each of the rectanges as individauls 
 running = True 
+winning = False
 gameover = False
 BOXES = [] #creating a list of boxes. Also keeps the boxes as individuals.
 FLAGS = BOMB_COUNT[0]
@@ -99,6 +106,8 @@ for bomb in range(random.randrange(BOMB_COUNT[0], BOMB_COUNT[1] + 1)): #makes su
     bomb_col = random.randrange(0,len(BOXES))
     #BOXES[bomb_row][bomb_col].color = red #will currently show where bombs are as red. 
     BOXES[bomb_row][bomb_col].is_bomb = True 
+    BOXES[bomb_row][bomb_col].color = red
+
 
 direction = [(-1,-1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)] #checking to see how close bomb is (so basically 1 away). If there is touching more than 1, it is noted. 
 for row in range(len(BOXES)):
@@ -114,9 +123,44 @@ flag_image = pygame.image.load(os.path.join('Assets', 'flag.png'))
 flag = pygame.transform.scale(flag_image, (40, 40))
 flag_dest = (blocksize//2, blocksize//2)
 
+def checkWin():
+    for row in BOXES:
+        for box in row:
+            if box.open == True or box.is_bomb ==True:
+                continue
+            else:
+                return False
+            
+    return True
+
+loop = True
+time = 0, '0'
+screen = pygame.display.set_mode((800, 800))
+clock = pygame.time.Clock()
+
 while running: 
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                start_time = pygame.time.get_ticks()
+
+    if start_time:
+        time_since_enter = pygame.time.get_ticks() - time
+        message = 'Milliseconds since enter: ' + str(time)
+        screen.blit(font.render(str(time), True, white), (20, 20))
+
+    pygame.display.flip()
+    clock.tick(60)
+
     window.fill((0, 0, 0))
     for event in pygame.event.get():
+        if checkWin():
+            winning = True
+            running = False
         pos = pygame.mouse.get_pos()
         if event.type == pygame.QUIT:
             running = False
@@ -130,7 +174,7 @@ while running:
                 for box in row:
                     if box.rect.collidepoint(pos):
                         clicked_box = box
-            if clicked_box and event.button == 1: #makes sure nothing happens if area that isn't a boxed is clicked it doesn't do anything. Also fills box.
+            if clicked_box and event.button == 1: #makes sure nothing happens if an area that isn't a boxed is clicked it doesn't do anything. Also fills box.
                 if clicked_box.is_bomb:  
                     running = False
                     gameover = True #hit bomb, game ends
@@ -154,6 +198,7 @@ while running:
                     #     pygame.display.update(box.rect)
                     print(FLAGS)
 
+
     for row in BOXES:
         for box in row:
             if box.is_flagged == True:
@@ -173,7 +218,9 @@ while running:
     pygame.time.Clock().tick(60)
 
 endfont = pygame.font.Font('freesansbold.ttf', 40)
-gotext = endfont.render('Game Over. You hit a mine!', True, red, black)
+gameOvertext = endfont.render('Game Over. You hit a mine!', True, red, black)
+endfont = pygame.font.Font('freesansbold.ttf', 40)
+winText = endfont.render('You won!', True, green, black)
 
 while gameover == True: 
    for event in pygame.event.get():
@@ -185,6 +232,20 @@ while gameover == True:
                running = False 
                gameover = False #press q to quit. 
    window.fill((0,0,0))
-   window.blit(gotext, (140, 375))
+   window.blit(gameOvertext, (140, 375))
    pygame.display.update()
    pygame.time.Clock().tick(60)
+
+while winning == True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False 
+            winning = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q: 
+                running = False 
+                winning = False #press q to quit. 
+    window.fill((0,0,0))
+    window.blit(winText, (305, 365))
+    pygame.display.update()
+    pygame.time.Clock().tick(60)
