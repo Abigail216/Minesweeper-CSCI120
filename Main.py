@@ -114,7 +114,7 @@ for row in range(len(BOXES)):
         BOXES[row][col].bombs = counter 
 
 #Flag information
-flag_image = pygame.image.load(os.path.join('CSCI Final','Assets', 'flag.png'))
+flag_image = pygame.image.load(os.path.join('Assets', 'flag.png'))
 flag = pygame.transform.scale(flag_image, (40, 40))
 flag_dest = (blocksize//2, blocksize//2)
 flag_x = 100
