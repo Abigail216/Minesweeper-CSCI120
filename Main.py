@@ -64,6 +64,7 @@ winning = False
 gameover = False
 BOXES = [] #creating a list of boxes. Also keeps the boxes as individuals.
 FLAGS = BOMB_COUNT[0]
+FLAGS2 = FLAGS
 
 def find_all(r, c):
     direction = [(-1,-1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]
@@ -122,6 +123,10 @@ for row in range(len(BOXES)):
 flag_image = pygame.image.load(os.path.join('Assets', 'flag.png'))
 flag = pygame.transform.scale(flag_image, (40, 40))
 flag_dest = (blocksize//2, blocksize//2)
+flag_x = 100
+flag_y = 50
+flag_font = pygame.font.Font('freesansbold.ttf', 20)
+
 
 def checkWin():
     for row in BOXES:
@@ -136,6 +141,8 @@ def checkWin():
 
 while running: 
     window.fill((0, 0, 0)) 
+    flag_score = font.render(f'Flags remaining: {FLAGS} /{FLAGS2}', True, white)
+    window.blit (flag_score, (flag_x, flag_y))
     window.blit(directionsline1, (100, 707))
     window.blit(directionsline2, (100, 727))
     window.blit(directionsline3, (100, 747))
@@ -183,13 +190,11 @@ while running:
 
 
     for row in BOXES:
-        for box in row:
-            if box.is_flagged == True:
-                window.blit(flag, (box.x+5, box.y+5))
+        for box in row:                
+    
             if box.color == white:
                 pygame.draw.rect(window, box.color, box.rect, 1)
-                 #this helps store each of the boxes. Rerenders the boxes in the boxes list.                   
-
+                 #this helps store each of the boxes. Rerenders the boxes in the boxes list.
             else: 
                 pygame.draw.rect(window, box.color, box.rect) #referring back to elif event.
                 pygame.draw.rect(window, white, box.rect,1) #referring back to elif event.
@@ -197,6 +202,12 @@ while running:
                     w, h = font.size(str(box.bombs))
                     text = font.render(str(box.bombs),False, (105, 105, 105))
                     window.blit(text, (box.x + (50 - w) // 2, box.y + (50 - h) //2 ))
+            if box.is_flagged == True:
+                pygame.draw.rect(window, box.color, box.rect, 1) == False
+                pygame.draw.rect(window, box.color, box.rect) == False
+                pygame.draw.rect(window, white, box.rect,1) == False
+                window.blit(flag, (box.x+5, box.y+5))
+            
     pygame.display.update()
     pygame.time.Clock().tick(60)
 
