@@ -47,15 +47,17 @@ black = (0, 0, 0)
 
 # font
 font = pygame.font.Font('freesansbold.ttf', 32)
-text = font.render('1', True, green, blue)
+smallfont = pygame.font.Font('freesansbold.ttf', 20)
+#text = font.render('1', True, green, blue)
+directionsline1 = smallfont.render('This is a traditional minesweeper game.', True, white, black)
+directionsline2 = smallfont.render('10 bombs are hidden within the gameboard', True, white, black)
+directionsline3 = smallfont.render("Left click to clear the box. Right click to mark a flag. 'Q' to quit.", True, white, black)
+directionsline4 = smallfont.render("Don't hit the bombs!", True, white, black)
 
-#timer
-timer, text = 0, '0'
-pygame.time.set_timer(pygame.USEREVENT, 1000)
+#directions
 
 #creating the bombs
-# BOMB_COUNT = (30,30) #for how many bombs will be created. 
-BOMB_COUNT = (1,1)
+BOMB_COUNT = (10,10)
 blocksize = 50  #Reads each of the rectanges as individauls 
 running = True 
 winning = False
@@ -106,8 +108,6 @@ for bomb in range(random.randrange(BOMB_COUNT[0], BOMB_COUNT[1] + 1)): #makes su
     bomb_col = random.randrange(0,len(BOXES))
     #BOXES[bomb_row][bomb_col].color = red #will currently show where bombs are as red. 
     BOXES[bomb_row][bomb_col].is_bomb = True 
-    BOXES[bomb_row][bomb_col].color = red
-
 
 direction = [(-1,-1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)] #checking to see how close bomb is (so basically 1 away). If there is touching more than 1, it is noted. 
 for row in range(len(BOXES)):
@@ -133,30 +133,13 @@ def checkWin():
             
     return True
 
-loop = True
-time = 0, '0'
-screen = pygame.display.set_mode((800, 800))
-clock = pygame.time.Clock()
 
 while running: 
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            quit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                start_time = pygame.time.get_ticks()
-
-    if start_time:
-        time_since_enter = pygame.time.get_ticks() - time
-        message = 'Milliseconds since enter: ' + str(time)
-        screen.blit(font.render(str(time), True, white), (20, 20))
-
-    pygame.display.flip()
-    clock.tick(60)
-
-    window.fill((0, 0, 0))
+    window.fill((0, 0, 0)) 
+    window.blit(directionsline1, (100, 707))
+    window.blit(directionsline2, (100, 727))
+    window.blit(directionsline3, (100, 747))
+    window.blit(directionsline4, (100, 767))
     for event in pygame.event.get():
         if checkWin():
             winning = True
@@ -217,11 +200,13 @@ while running:
     pygame.display.update()
     pygame.time.Clock().tick(60)
 
+#end sequence text initialization
 endfont = pygame.font.Font('freesansbold.ttf', 40)
 gameOvertext = endfont.render('Game Over. You hit a mine!', True, red, black)
 endfont = pygame.font.Font('freesansbold.ttf', 40)
 winText = endfont.render('You won!', True, green, black)
 
+#losing sequence loop
 while gameover == True: 
    for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -236,6 +221,7 @@ while gameover == True:
    pygame.display.update()
    pygame.time.Clock().tick(60)
 
+#winning sequence loop. 
 while winning == True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
