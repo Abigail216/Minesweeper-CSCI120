@@ -46,7 +46,7 @@ black = (0, 0, 0)
 font = pygame.font.Font('freesansbold.ttf', 32)
 smallfont = pygame.font.Font('freesansbold.ttf', 20)
 directionsline1 = smallfont.render('This is a traditional minesweeper game.', True, white, black)
-directionsline2 = smallfont.render('10 bombs are hidden within the gameboard', True, white, black)
+directionsline2 = smallfont.render('30 bombs are hidden within the gameboard', True, white, black)
 directionsline3 = smallfont.render("Left click to clear the box. Right click to mark a flag. 'Q' to quit.", True, white, black)
 directionsline4 = smallfont.render("Don't hit the bombs!", True, white, black)
 
